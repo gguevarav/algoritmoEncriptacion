@@ -44,23 +44,31 @@
             <v-row>
               <v-col
                 cols="12"
-                sm="6"
-                md="6">
+                sm="4"
+                md="4">
                 <v-text-field
                   v-model="DatosUsuario.ContraseniaEncriptada"
-                  label="ContraseniaEncriptada"
+                  label="Contrasenia encriptada"
                   :rules="[rules.required]">
                 </v-text-field>
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
-                md="6">
+                sm="4"
+                md="4">
+                <v-text-field
+                  v-model="DatosUsuario.llaveEncriptacion"
+                  label="Clave de encriptación"
+                  :rules="[rules.required]">
+                </v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="4"
+                md="4">
                 <v-text-field
                   v-model="DatosUsuario.ContraseniaUsuario"
-                  label="ContraseniaDesencriptada"
-
-                    >
+                  label="Contrasenia desencriptada">
                 </v-text-field>
               </v-col>
             </v-row>
@@ -94,10 +102,12 @@ export default {
     DatosUsuario:{
       ContraseniaEncriptada: '',
       ContraseniaUsuario: '',
+      llaveEncriptacion: '',
     },
     datosVacios:{
       ContraseniaEncriptada: '',
       ContraseniaUsuario: '',
+      llaveEncriptacion: '',
     },
     contraseniaDesencriptada: [],
     rules: {

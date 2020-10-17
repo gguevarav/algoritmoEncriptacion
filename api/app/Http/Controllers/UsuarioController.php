@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use \Laravel\Lumen\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\Usuario;
 
 class UsuarioController extends BaseController
@@ -35,6 +36,7 @@ class UsuarioController extends BaseController
         $json = null;
         // Recogemos los Datos que almacenaremos, los ingresamos a un array
         $Datos = array("NombreApellidoUsuario"=>$request->NombreApellidoUsuario,
+                       "llaveEncriptacion"=>$request->llaveEncriptacion,
                        "ContraseniaUsuario"=>$request->ContraseniaUsuario);
 
         // Validamos que los Datos no estén vacios
@@ -43,6 +45,7 @@ class UsuarioController extends BaseController
             // Reglas
             $Reglas = [
                 "NombreApellidoUsuario" => 'required|string|max:255',
+                "llaveEncriptacion" => 'required|string|max:255',
                 "ContraseniaUsuario" => 'required|string|max:255'];
 
             $Mensajes = [
@@ -67,7 +70,7 @@ class UsuarioController extends BaseController
                 // Ingresamos los datos
                 $Rol->NombreApellidoUsuario = $Datos["NombreApellidoUsuario"];
                 $Rol->ContraseniaUsuario = $Datos["ContraseniaUsuario"];
-                $Rol->ContraseniaEncriptada = $this->encriptarDatos($Datos["ContraseniaUsuario"]);
+                $Rol->ContraseniaEncriptada = $this->encriptarDatos($Datos["ContraseniaUsuario"], $Datos["llaveEncriptacion"]);
 
                 // Ejecutamos la acción de guardar
                 $Rol->save();
@@ -75,7 +78,7 @@ class UsuarioController extends BaseController
                 $json = array(
                     "status" => 200,
                     "detalle" => "Registro exitoso",
-                    "contreseniaEncriptada" => $this->encriptarDatos($Datos["ContraseniaUsuario"])
+                    "contreseniaEncriptada" => $this->encriptarDatos($Datos["ContraseniaUsuario"], $Datos["llaveEncriptacion"])
                 );
             }
         }else{
@@ -105,6 +108,37 @@ class UsuarioController extends BaseController
                 'detalle' => "Registro no encontrado."
             );
         }
+        // Devolvemos la respuesta en un Json
+        return response()->json($json);
+    }
+
+    public function pruebas(){
+        //print_r(openssl_get_cipher_methods());
+
+        $contrasenia = "HolaMundo";
+        $metodoDeEncriptado = "AES-256-CBC";
+        $llaveSecreta = "admin123456";
+        $ivSecreto = "12345678";
+
+        $key = hash('sha256', $llaveSecreta);
+        $iv = substr(hash('sha256', $ivSecreto), 0, 16);
+
+        $contraseniaEncriptada = openssl_encrypt($contrasenia, $metodoDeEncriptado, $key,  0, $iv);
+
+        $contraseniaDesencriptada = openssl_decrypt($contraseniaEncriptada, $metodoDeEncriptado, $key,  0, $iv);
+
+        //$contraseniaEncriptada = Crypt::encrypt($contrasenia);
+        //$contraseniaDesencriptada = Crypt::decrypt($contraseniaEncriptada);
+
+        $json = array(
+            'hash' => $key,
+            'iv' => $iv,
+            'contraseniaEnctriptada' => $contraseniaEncriptada,
+            'contraseniaDesencriptada' => $contraseniaDesencriptada
+        );
+
+        //print_r($contraseniaEncriptada);
+
         // Devolvemos la respuesta en un Json
         return response()->json($json);
     }
@@ -185,52 +219,40 @@ class UsuarioController extends BaseController
         return response()->json($json);
     }
 
-    public function encriptarDatos($contrasenia){
-        // Obtenermos todos los caracteres de la contraseña que nos enviaron y lo almacenamos
-        // en un array
-        $Contrasenia = str_split($contrasenia);
-        // Array que contendŕa los nuevos valores de la contrasenia.
-        $arrayEncriptado = null;
-        // A cada caracter lo moveremos 5 posiciones en la tabla ascii
-        for($contador = 0; $contador < count($Contrasenia); $contador++){
-            // Primero obtenemos el valor entero en ascii del caracter:
-            $valorAsciiCaracter = ord($Contrasenia[$contador]);
-            // Movemos el caracter 5 posiciones adelante
-            $valorAsciiCaracter += 5;
-            // Convertimos el ascii a caracter
-            $asciiACaracter = chr($valorAsciiCaracter);
-            // Guardamos el caracter en el nuevo array
-            $arrayEncriptado[$contador] = $asciiACaracter;
-        }
-        // Unimos nuevamente todo el array de caracteres
-        $ContraseniaEncriptada = implode($arrayEncriptado);
-        return $ContraseniaEncriptada;
+    public function encriptarDatos($contrasenia, $llaveEncriptacion){
+        // Para encriptar la contraseña se utilizará el método AES-256-CBC
+        $metodoDeEncriptado = "AES-256-CBC";
+        // Vector de inicialización
+        $ivSecreto = "12345678";
+        // Para hacer uno de la clave de encriptación utilizaremos un hash que haremos a partir de la llave que el usuario envía.
+        $key = hash('sha256', $llaveEncriptacion);
+        // Convertiremos el venctor de inicialización en un hash y lo dividiremos en un un substring de 16 caracteres
+        $iv = substr(hash('sha256', $ivSecreto), 0, 16);
+        // Obtendremos la contraseña encriptada.
+        $contraseniaEncriptada = openssl_encrypt($contrasenia, $metodoDeEncriptado, $key,  0, $iv);
+        // Devolveremos la contraseña encriptada
+        return $contraseniaEncriptada;
     }
 
     public function desencriptarDatos(Request $request){
-        // Obtenermos todos los caracteres de la contraseña que nos enviaron y lo almacenamos
-        // en un array
-        $ContraseniaEncriptada = str_split($request->ContraseniaEncriptada);
-        // Array que contendŕa los nuevos valores de la contrasenia.
-        $arrayDesencriptado = null;
-        // A cada caracter lo moveremos 5 posiciones en la tabla ascii
-        for($contador = 0; $contador < count($ContraseniaEncriptada); $contador++){
-            // Primero obtenemos el valor entero en ascii del caracter:
-            $valorAsciiCaracter = ord($ContraseniaEncriptada[$contador]);
-            // Movemos el caracter 5 posiciones adelante
-            $valorAsciiCaracter -= 5;
-            // Convertimos el ascii a caracter
-            $asciiACaracter = chr($valorAsciiCaracter);
-            // Guardamos el caracter en el nuevo array
-            $arrayDesencriptado[$contador] = $asciiACaracter;
-        }
-        // Unimos nuevamente todo el array de caracteres
-        $ContraseniaEncriptada = implode($arrayDesencriptado);
-        // Devolveremos un Json
+        // Almacenaremos los datos del request en variables locales
+        $contraseniaEncriptada = $request->ContraseniaEncriptada;
+        $llaveEncriptacion = $request->llaveEncriptacion;
+        // Para encriptar la contraseña se utilizará el método AES-256-CBC
+        $metodoDeEncriptado = "AES-256-CBC";
+        // Vector de inicialización
+        $ivSecreto = "12345678";
+        // Para hacer uno de la clave de encriptación utilizaremos un hash que haremos a partir de la llave que el usuario envía.
+        $key = hash('sha256', $llaveEncriptacion);
+        // Convertiremos el venctor de inicialización en un hash y lo dividiremos en un un substring de 16 caracteres
+        $iv = substr(hash('sha256', $ivSecreto), 0, 16);
+        // Obtendremos la contraseña encriptada.
+        $contraseniaDesencriptada = openssl_decrypt($contraseniaEncriptada, $metodoDeEncriptado, $key,  0, $iv);
+        // Devolveremos un Json con la contraseña desencriptada
         $json = array(
             "status" => 200,
             "detalle" => "Contraseña desencriptada exitosamente",
-            "ContraseniaUsuario" => $ContraseniaEncriptada
+            "ContraseniaUsuario" => $contraseniaDesencriptada
         );
         return response()->json($json);
     }

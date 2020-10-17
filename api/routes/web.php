@@ -26,5 +26,6 @@ $router->delete('/usuarios/{id}', 'UsuarioController@destroy');
 $router->post('/desencriptar', 'UsuarioController@desencriptarDatos');
 // Encriptado
 $router->post('/encriptar', 'UsuarioController@encriptarDatos');
+$router->get('/pruebas', 'UsuarioController@pruebas');
 
 //Route::get('usuarios', 'UsuarioController@index');

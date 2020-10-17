@@ -44,21 +44,31 @@
             <v-row>
               <v-col
                 cols="12"
-                sm="6"
-                md="6">
+                sm="4"
+                md="4">
                 <v-text-field
                   v-model="DatosUsuario.NombreApellidoUsuario"
-                  label="NombreUsuario"
+                  label="Nombre del usuario"
                   :rules="[rules.required]">
                 </v-text-field>
               </v-col>
               <v-col
                 cols="12"
-                sm="6"
-                md="6">
+                sm="4"
+                md="4">
                 <v-text-field
                   v-model="DatosUsuario.ContraseniaUsuario"
                   label="Contraseña"
+                  :rules="[rules.required]">
+                </v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                sm="4"
+                md="4">
+                <v-text-field
+                  v-model="DatosUsuario.llaveEncriptacion"
+                  label="Llave de encriptado"
                   :rules="[rules.required]">
                 </v-text-field>
               </v-col>
@@ -93,10 +103,12 @@ export default {
     DatosUsuario:{
       NombreApellidoUsuario: '',
       ContraseniaUsuario: '',
+      llaveEncriptacion: '',
     },
     datosVacios:{
       NombreApellidoUsuario: '',
       ContraseniaUsuario: '',
+      llaveEncriptacion: '',
     },
     rules: {
       required: value => !!value || 'Campo requerido.',

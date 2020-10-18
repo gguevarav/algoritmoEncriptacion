@@ -235,25 +235,71 @@ class UsuarioController extends BaseController
     }
 
     public function desencriptarDatos(Request $request){
-        // Almacenaremos los datos del request en variables locales
-        $contraseniaEncriptada = $request->ContraseniaEncriptada;
-        $llaveEncriptacion = $request->llaveEncriptacion;
-        // Para encriptar la contraseña se utilizará el método AES-256-CBC
-        $metodoDeEncriptado = "AES-256-CBC";
-        // Vector de inicialización
-        $ivSecreto = "12345678";
-        // Para hacer uno de la clave de encriptación utilizaremos un hash que haremos a partir de la llave que el usuario envía.
-        $key = hash('sha256', $llaveEncriptacion);
-        // Convertiremos el venctor de inicialización en un hash y lo dividiremos en un un substring de 16 caracteres
-        $iv = substr(hash('sha256', $ivSecreto), 0, 16);
-        // Obtendremos la contraseña encriptada.
-        $contraseniaDesencriptada = openssl_decrypt($contraseniaEncriptada, $metodoDeEncriptado, $key,  0, $iv);
-        // Devolveremos un Json con la contraseña desencriptada
-        $json = array(
-            "status" => 200,
-            "detalle" => "Contraseña desencriptada exitosamente",
-            "ContraseniaUsuario" => $contraseniaDesencriptada
-        );
+        // Creamos un json nulo
+        $json = null;
+        // Almacenaremos los datos del request en un array
+        $Datos = array("contraseniaEncriptada"=>$request->ContraseniaEncriptada,
+            "llaveEncriptacion"=>$request->llaveEncriptacion);
+
+        // Validamos que los Datos no estén vacios
+        if(!empty($Datos)){
+            // Separamos la validación
+            // Reglas
+            $Reglas = [
+                "contraseniaEncriptada" => 'required|string|max:255',
+                "llaveEncriptacion" => 'required|string|max:255'];
+
+            $Mensajes = [
+                "contraseniaEncriptada.required" => 'Es necesario contar con una contraseña',
+                "llaveEncriptacion.required" => 'Es necesario contar con una llave.'];
+            // Validamos los Datos antes de insertarlos en la base de Datos
+            $validacion = Validator::make($Datos,$Reglas,$Mensajes);
+
+            //return echo "Hola";
+            // Revisamos la validación
+            if($validacion->fails()){
+                // Devolvemos el mensaje que falló la validación de Datos
+                $json = array(
+                    "status" => 404,
+                    "detalle" => "Los registros tienen errores",
+                    "errores" => $validacion->errors()->all()
+                );
+            }else{
+                // Para encriptar la contraseña se utilizará el método AES-256-CBC
+                $metodoDeEncriptado = "AES-256-CBC";
+                // Vector de inicialización
+                $ivSecreto = "12345678";
+                // Para hacer uno de la clave de encriptación utilizaremos un hash que haremos a partir de la llave que el usuario envía.
+                $key = hash('sha256', $Datos['llaveEncriptacion']);
+                // Convertiremos el venctor de inicialización en un hash y lo dividiremos en un un substring de 16 caracteres
+                $iv = substr(hash('sha256', $ivSecreto), 0, 16);
+                // Obtendremos la contraseña encriptada.
+                $contraseniaDesencriptada = openssl_decrypt($Datos['contraseniaEncriptada'], $metodoDeEncriptado, $key,  0, $iv);
+                if($contraseniaDesencriptada === false){
+                    // Devolvemos el mensaje que falló la validación de Datos
+                    $json = array(
+                        "status" => 404,
+                        "detalle" => "La clave o contraseña encriptada no es válida",
+                        "errores" => array(
+                                            0 => 'La clave o contraseña encriptada no es válida'
+                                          )
+                    );
+                }else {
+                    // Devolveremos un Json con la contraseña desencriptada
+                    $json = array(
+                        "status" => 200,
+                        "detalle" => "Contraseña desencriptada exitosamente",
+                        "ContraseniaUsuario" => $contraseniaDesencriptada
+                    );
+                }
+            }
+        }else{
+            $json = array(
+                "status" => 404,
+                "detalle" => "Registro con errores"
+            );
+        }
+        // Devolvemos la respuesta en un Json
         return response()->json($json);
     }
 }

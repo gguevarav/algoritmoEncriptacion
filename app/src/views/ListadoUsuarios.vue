@@ -7,7 +7,7 @@
         <v-data-table
           :headers="headers"
           :items="listadoUsuario"
-          :items-per-page="5"
+          :items-per-page="10"
           sort-by="NombreUsuario"
           class="elevation-1">
           <template
@@ -16,7 +16,10 @@
               flat
               color="white">
               <v-toolbar-title>
-                Listado de usuarios
+                <span
+                  class="headline">
+                  Listado de usuarios
+                </span>
               </v-toolbar-title>
               <v-spacer></v-spacer>
               <!-- Termina dialog de botones de agregar y recargar -->
@@ -51,7 +54,7 @@ export default {
   name: "ListadoUsuarios",
   data: () => ({
     headers: [{
-      text: 'idUsuarios',
+      text: 'id Usuario',
       align: 'start',
       sortable: false,
       value: 'idUsuario',

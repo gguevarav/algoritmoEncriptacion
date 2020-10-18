@@ -44,7 +44,7 @@
             <v-row>
               <v-col
                 cols="12"
-                sm="4"
+                sm="12"
                 md="4">
                 <v-text-field
                   v-model="DatosUsuario.NombreApellidoUsuario"
@@ -54,7 +54,7 @@
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="12"
                 md="4">
                 <v-text-field
                   v-model="DatosUsuario.ContraseniaUsuario"
@@ -64,7 +64,7 @@
               </v-col>
               <v-col
                 cols="12"
-                sm="4"
+                sm="12"
                 md="4">
                 <v-text-field
                   v-model="DatosUsuario.llaveEncriptacion"

@@ -1,5 +1,130 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+  <v-container>
+    <v-row
+      align="center">
+      <v-col
+        align="center"
+        cols="12"
+        sm="12"
+        md="9">
+          <h1>Universidad Mariano Gálvez</h1>
+      </v-col>
+      <v-col
+        align="center"
+        cols="12"
+        sm="12"
+        md="3">
+        <v-img
+          lazy-src="@/assets/images/umgLogo.jpg"
+          max-height="150"
+          max-width="250"
+          src="@/assets/images/umgLogo.jpg"
+        ></v-img>
+      </v-col>
+      <v-col
+        cols="12">
+        <v-col
+          align="center"
+          cols="12">
+          <v-divider></v-divider>
+          <br>
+          <h3>Análisis de Sistemas II</h3>
+          <h5>Análisis y Diseño No. 5</h5>
+        </v-col>
+        <v-container>
+          <v-row>
+            <v-col
+              cols="12"
+              md="6"
+              sm="12">
+              <v-container>
+                <v-row>
+                  <v-col
+                    align="center"
+                    cols="12">
+                    <h3>Integrantes:</h3>
+                  </v-col>
+                  <v-col
+                    align="center"
+                    cols="7">
+                    Gemis Daniel Guevara Villeda
+                  </v-col>
+                  <v-col
+                    align="center"
+                    cols="5">
+                    5390-13-2950
+                  </v-col>
+                  <v-col
+                    align="center"
+                    cols="7">
+                    Mayari Lizbeth Corado Zeceña
+                </v-col>
+                  <v-col
+                    align="center"
+                    cols="5">
+                    5390-13-10104
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-col>
+            <v-col
+              cols="12"
+              md="6"
+              sm="12">
+              <v-container>
+                <v-row
+                  align="center">
+                  <v-col
+                    align="right"
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <label>Código Fuente: </label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <v-btn icon href="https://github.com/gguevarav/algoritmoEncriptacion" target="_blank">
+                      <v-icon>mdi-github</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col
+                    align="right"
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <label>Documentación: </label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <v-btn icon href="https://github.com/gguevarav/algoritmoEncriptacion" target="_blank">
+                      <v-icon>mdi-file-document</v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col
+                    align="right"
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <label>Manual: </label>
+                  </v-col>
+                  <v-col
+                    cols="6"
+                    md="6"
+                    sm="6">
+                    <v-btn icon href="https://github.com/gguevarav/algoritmoEncriptacion" target="_blank">
+                      <v-icon>mdi-cog</v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>

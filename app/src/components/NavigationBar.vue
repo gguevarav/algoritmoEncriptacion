@@ -1,21 +1,29 @@
 <template>
-  <v-navigation-drawer v-model="barraNavegacion" app floating :permanent="barraNavegacion" dark>
-    <v-list>
-      <v-list-item>
-        <v-list-item-avatar>
-          <v-img src="../assets/images/nouser.png" height="752" width="860"/>
-        </v-list-item-avatar>
-      </v-list-item>
-
-      <v-list-group link>
-        <template v-slot:activator>
-          <v-list-item-content>
-            <v-list-item-title class="title">admin</v-list-item-title>
-            <v-list-item-subtitle>admin@admin.com</v-list-item-subtitle>
-          </v-list-item-content>
-        </template>
-      </v-list-group>
-    </v-list>
+  <v-container>
+  <v-app-bar color="brown darken-3" dark app>
+    <v-app-bar-nav-icon
+      @click="barraNavegacion = !barraNavegacion">
+    </v-app-bar-nav-icon>
+    <v-toolbar-title>
+      Encriptador de contraseñas
+    </v-toolbar-title>
+  </v-app-bar>
+  <v-navigation-drawer
+    color="teal darken-4"
+    v-model="barraNavegacion"
+    app
+    floating
+    dark>
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="title">
+          Encriptador
+        </v-list-item-title>
+        <v-list-item-subtitle>
+          AES-256-CBC
+        </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
     <v-divider></v-divider>
     <v-list nav dense flat>
       <v-list-item-group>
@@ -71,6 +79,8 @@
       </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
+    <router-view></router-view>
+  </v-container>
 </template>
 
 <script>
@@ -85,7 +95,7 @@ export default {
     }
   },
   data: () => ({
-    barraNavegacion: true,
+    barraNavegacion: false,
   })
 }
 </script>

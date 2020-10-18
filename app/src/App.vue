@@ -2,13 +2,9 @@
   <div>
     <v-app>
       <v-content>
-        <!-- Barra principal aplicación -->
-        <AppBar></AppBar>
+        <v-container>
         <!-- Barra de navegación -->
         <NavigationBar></NavigationBar>
-        <!-- Contenido principal -->
-        <v-container>
-          <router-view></router-view>
         </v-container>
       </v-content>
     </v-app>

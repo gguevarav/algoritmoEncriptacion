@@ -65,15 +65,15 @@ class UsuarioController extends BaseController
                 );
             }else{
                 // instanciamos un nuevo objeto para registro
-                $Rol = new Usuario();
+                $usuario = new Usuario();
 
                 // Ingresamos los datos
-                $Rol->NombreApellidoUsuario = $Datos["NombreApellidoUsuario"];
-                $Rol->ContraseniaUsuario = $Datos["ContraseniaUsuario"];
-                $Rol->ContraseniaEncriptada = $this->encriptarDatos($Datos["ContraseniaUsuario"], $Datos["llaveEncriptacion"]);
+                $usuario->NombreApellidoUsuario = $Datos["NombreApellidoUsuario"];
+                $usuario->ContraseniaUsuario = $Datos["ContraseniaUsuario"];
+                $usuario->ContraseniaEncriptada = $this->encriptarDatos($Datos["ContraseniaUsuario"], $Datos["llaveEncriptacion"]);
 
                 // Ejecutamos la acción de guardar
-                $Rol->save();
+                $usuario->save();
 
                 $json = array(
                     "status" => 200,

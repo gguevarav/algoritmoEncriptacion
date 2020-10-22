@@ -1,120 +1,120 @@
 <template>
-  <v-app>
-    <div>
-      <!-- Snackbar de notificaciones -->
-      <v-snackbar
-        v-model="snackbar"
-        :timeout="timeout"
-        color="success">
+  <div>
+  <div>
+    <!-- Snackbar de notificaciones -->
+    <v-snackbar
+      v-model="snackbar"
+      :timeout="timeout"
+      color="success">
 
-        {{ textoSnackbar }}
+      {{ textoSnackbar }}
 
-        <template v-slot:action="{ attrs }">
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          color="blue darken-1"
+          text
+          v-bind="attrs"
+          @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <!-- Termina Snackbar de notificaciones -->
+  </div>
+  <v-row>
+    <v-col cols="12">
+      <v-card
+        elevation="10"
+        shaped>
+        <v-card-title>
+          <span>
+            Encriptar una contraseña
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <v-form>
+            <v-alert
+              type="error"
+              v-model="alertaErrores">
+              Los registros contienen los siguientes errores:
+              <li
+                v-for="value in listadoErrores"
+                v-bind:key>
+                {{ value }}
+              </li>
+            </v-alert>
+            <v-container>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="12"
+                  md="4">
+                  <v-text-field
+                    v-model="DatosUsuario.NombreApellidoUsuario"
+                    label="Nombre del usuario"
+                    :rules="[rules.required]">
+                  </v-text-field>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="12"
+                  md="4">
+                  <v-text-field
+                    v-model="DatosUsuario.ContraseniaUsuario"
+                    label="Contraseña"
+                    :rules="[rules.required]">
+                  </v-text-field>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="12"
+                  md="4">
+                  <v-text-field
+                    v-model="DatosUsuario.llaveEncriptacion"
+                    label="Llave de encriptado"
+                    :rules="[rules.required]">
+                  </v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
-            color="blue darken-1"
             text
-            v-bind="attrs"
-            @click="snackbar = false">
-            Close
+            @click="guardarInformacion()">
+            Encriptar
           </v-btn>
-        </template>
-      </v-snackbar>
-      <!-- Termina Snackbar de notificaciones -->
-    </div>
-    <v-row>
-      <v-col cols="12">
+        </v-card-actions>
+      </v-card>
+    </v-col>
+    <v-col
+      cols="12">
+      <div>
         <v-card
           elevation="10"
-          shaped>
+          shaped
+          v-if="mostrarContraseniaEncriptada">
           <v-card-title>
-            <span>
-              Encriptar una contraseña
-            </span>
+            Contraseña encriptada
           </v-card-title>
+          <v-card-subtitle>
+            Esta es tu contraseña encriptada, puede copiarla al portapapeles
+          </v-card-subtitle>
           <v-card-text>
-            <v-form>
-              <v-alert
-                type="error"
-                v-model="alertaErrores">
-                Los registros contienen los siguientes errores:
-                <li
-                  v-for="value in listadoErrores"
-                  v-bind:key>
-                  {{ value }}
-                </li>
-              </v-alert>
-              <v-container>
-                <v-row>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="4">
-                    <v-text-field
-                      v-model="DatosUsuario.NombreApellidoUsuario"
-                      label="Nombre del usuario"
-                      :rules="[rules.required]">
-                    </v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="4">
-                    <v-text-field
-                      v-model="DatosUsuario.ContraseniaUsuario"
-                      label="Contraseña"
-                      :rules="[rules.required]">
-                    </v-text-field>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="12"
-                    md="4">
-                    <v-text-field
-                      v-model="DatosUsuario.llaveEncriptacion"
-                      label="Llave de encriptado"
-                      :rules="[rules.required]">
-                    </v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-form>
+            <v-text-field
+              ref="contraseniaEncript"
+              :value="contreseniaEncriptada"
+              append-icon="mdi-clipboard"
+              @click:append="copyToClipboard(contreseniaEncriptada)">
+            </v-text-field>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              text
-              @click="guardarInformacion()">
-              Encriptar
-            </v-btn>
-          </v-card-actions>
         </v-card>
-      </v-col>
-      <v-col
-        cols="12">
-        <div>
-          <v-card
-            elevation="10"
-            shaped
-            v-if="mostrarContraseniaEncriptada">
-            <v-card-title>
-              Contraseña encriptada
-            </v-card-title>
-            <v-card-subtitle>
-              Esta es tu contraseña encriptada, puede copiarla al portapapeles
-            </v-card-subtitle>
-            <v-card-text>
-              <v-text-field
-                ref="contraseniaEncript"
-                :value="contreseniaEncriptada"
-                append-icon="mdi-clipboard"
-                @click:append="copyToClipboard(contreseniaEncriptada)">
-              </v-text-field>
-            </v-card-text>
-          </v-card>
-        </div>
-      </v-col>
-    </v-row>
-  </v-app>
+      </div>
+    </v-col>
+  </v-row>
+  </div>
 </template>
 
 <script>

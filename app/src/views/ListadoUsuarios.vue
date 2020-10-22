@@ -1,46 +1,44 @@
 <template>
-  <v-app>
-    <v-row>
-      <v-col>
-        <v-card
-          elevation="10"
-          shaped>
-          <v-card-title>
-            Listado de usuarios
-          </v-card-title>
-          <div>
-            <!-- Contenido principal -->
-            <div class="text-center">
-              <!-- Tabla de usuarios -->
-              <v-data-table
-                :headers="headers"
-                :items="listadoUsuario"
-                :items-per-page="10"
-                sort-by="NombreUsuario"
-                class="elevation-1">
-                <template
-                  v-slot:item.actions="{ item }">
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="agregarProductoInventario(item, item.idInventario)">
-                    mdi-plus
-                  </v-icon>
-                  <v-icon
-                    small
-                    class="mr-2"
-                    @click="editarMinimosMaximosProducto(item, item.idInventario)">
-                    mdi-pencil
-                  </v-icon>
-                </template>
-              </v-data-table>
-              <!-- Termina tabla de usuarios -->
-            </div>
+  <v-row>
+    <v-col>
+      <v-card
+        elevation="10"
+        shaped>
+        <v-card-title>
+          Listado de usuarios
+        </v-card-title>
+        <div>
+          <!-- Contenido principal -->
+          <div class="text-center">
+            <!-- Tabla de usuarios -->
+            <v-data-table
+              :headers="headers"
+              :items="listadoUsuario"
+              :items-per-page="10"
+              sort-by="NombreUsuario"
+              class="elevation-1">
+              <template
+                v-slot:item.actions="{ item }">
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="agregarProductoInventario(item, item.idInventario)">
+                  mdi-plus
+                </v-icon>
+                <v-icon
+                  small
+                  class="mr-2"
+                  @click="editarMinimosMaximosProducto(item, item.idInventario)">
+                  mdi-pencil
+                </v-icon>
+              </template>
+            </v-data-table>
+            <!-- Termina tabla de usuarios -->
           </div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-app>
+        </div>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

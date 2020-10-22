@@ -1,14 +1,13 @@
 <template>
-  <div>
     <v-app>
-      <v-content>
+      <!-- Barra de navegación -->
+      <NavigationBar></NavigationBar>
+      <v-main>
         <v-container>
-        <!-- Barra de navegación -->
-        <NavigationBar></NavigationBar>
+          <router-view></router-view>
         </v-container>
-      </v-content>
+      </v-main>
     </v-app>
-  </div>
 </template>
 
 <script>

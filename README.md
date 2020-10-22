@@ -23,7 +23,7 @@ CREATE TABLE usuarios(
 
 ```
 
-## Creacion de la api  🔐 
+## Creación del api 🔐 
 
 1. Para crear la api necesitamos lo siguiente:
 
@@ -35,9 +35,10 @@ CREATE TABLE usuarios(
 2. para instalar lumen utilizamos el siguiente comando:
 
 ```shell
-coloca comando 
+composer create-project --prefer-dist laravel/lumen api
+api es el nombre del proyecto.
 ```
-3. clonamos el archivo .env.example y le colocamos .env y modificamos la cadena de conexion.
+3. clonamos el archivo .env.example y le colocamos .env y modificamos la cadena de conexión.
 
 ```sql
 DB_CONNECTION=mysql
@@ -48,9 +49,9 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-## Controladores 
+## Controladores ⚙️ 
 
-4. Luego de instalar el framewor de lumen, se crearan la estructura de nuestro proyecto, ahora devemos ir a la carpeta de api/app/Http/Controllers.
+4. Luego de instalar el framework de lumen, se crearan la estructura de nuestro proyecto, ahora debemos ir a la carpeta de api/app/Http/Controllers.
 
     1. creamos el contralor Encriptar
 
@@ -109,8 +110,8 @@ class DesencriptarController extends BaseController
 
 ```
 
-    3. creamos el contrador Usuario
-        1. creamos la funcion index
+    3. creamos el controlador Usuario
+        1. creamos la función índex
 
 ```php
 <?php
@@ -145,28 +146,29 @@ class UsuarioController extends BaseController
         // Mostramos la información como un json
         return response()->json($json);
     }
+}
 ```
-        2. Creamos la funcion store, con esta funcion obtenemos los datos que el usuario ingresa.
+        2. Creamos la función store, con esta función obtenemos los datos que el usuario ingresa.
 
  ```php
- public function store(Request $request){ 
-     ------
+ public function store(Request $request){ }
+     //------
  ```           
 
-        3. Creamos la funcion show, con esta funcion alamacenamos los datos del usuario
+        3. Creamos la función show, con esta función almacenamos los datos del usuario
 
  ```php
- public function show($id, Request $request){
-     ------
+ public function show($id, Request $request){ }
+     //------
  ``` 
 
-         4. Creamos la funcion update, con esta funcion se actualiza la informacion del usuario
+         4. Creamos la función update, con esta función se actualiza la información del usuario.
 
  ```php
-public function update($id, Request $request){
-     ------
+public function update($id, Request $request){ }
+     //------
  ```  
-        5. Creamos la funcion encriptarDatos, con esta funcion procedemos a encriptar la contraseña proporsionada por el usuario    
+        5. Creamos la función encriptarDatos, con esta función procedemos a encriptar la contraseña proporcionada por el usuario.   
  ```php
 public function encriptarDatos($contrasenia, $llaveEncriptacion){
         // Para encriptar la contraseña se utilizará el método AES-256-CBC
@@ -185,7 +187,7 @@ public function encriptarDatos($contrasenia, $llaveEncriptacion){
 
  ```
  
-            6. Creamos la funcion desencriptarDatos, con esta funcion procedemos a encriptar la contraseña proporsionada por el usuario  
+            6. Creamos la función desencriptarDatos, con esta función procedemos a encriptar la contraseña proporcionada por el usuario.  
 
  ```php
     public function desencriptarDatos(Request $request){
@@ -212,9 +214,9 @@ public function encriptarDatos($contrasenia, $llaveEncriptacion){
     }    
  ```
 
-## Model
+## Model 📚 
 
-1. creamos el model Usuario e indicamos el nombre de la tabla y la llave primario, dado que esta informacion la utilizamos en el controlador Usuario.
+1. creamos el model Usuario e indicamos el nombre de la tabla y la llave primario, dado que esta información la utilizamos en el controlador Usuario.
 
  ```php
 <?php
@@ -230,6 +232,59 @@ class Usuario extends Model
 }
 
 ```
-# Configuracion de la interfaz de usuario (app)
+# Configuración de la interfaz de usuario (app) 💻 
 
+1. Para crear de la interfaz de usuario necesitamos lo siguiente:
+
+    1. Vue.js
+    2. Node.js
+2. Luego de instalar Vue, se nos creara la estructura y vamos a la carpeta de componentes donde configuraremos la página principal y el menú de nuestra aplicación.
+
+    1. AppBar.vue, en este archivo configuraremos la vista inicial de nuestra aplicación.
+
+  ```js
+<template>
+    <v-app-bar color="primary" dense dark app>
+
+        <v-app-bar-nav-icon @click="false"></v-app-bar-nav-icon>
+
+        <v-toolbar-title>Algoritmo de encriptación</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+    </v-app-bar>
+</template>
+
+<script>
+
+export default {
+  name: 'AppBar',
+  data: () => ({
+
+  })
+
+}
+</script>
+
+<style>
+
+</style>
+
+```   
+
+    2. NavigationBar.vue en este archivo configuramos la vista del menú, y poder ir a cada una de las opciones de nuestra página.
+
+
+1. Ahora que tenemos los componentes o estructura de nuestra página crearemos las vistas que mandaremos a llamar desde el menú. Vamos a la carpeta views y crearemos las siguientes vistas:
+
+    
+    1. Desencriptar
+    2. Encriptar
+    3. Home
+    4. ListadoUsuarios
+
+
+## *¡¡El trabajo duro hace que desaparezcan las arrugas de la mente y el espíritu - Helena Rubinstein!!* 👊👍😀 
+
+    
 

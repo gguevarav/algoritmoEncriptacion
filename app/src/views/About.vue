@@ -49,6 +49,26 @@
                       cols="5">
                       5390-13-10104
                     </v-col>
+                    <v-col
+                      align="center"
+                      cols="7">
+                      Mynor De León Lemus
+                    </v-col>
+                    <v-col
+                      align="center"
+                      cols="5">
+                      5390-15-4753
+                    </v-col>
+                    <v-col
+                      align="center"
+                      cols="7">
+                      Horacio Lorenzo Bamaca Diaz
+                    </v-col>
+                    <v-col
+                      align="center"
+                      cols="5">
+                      5390-17-6440
+                    </v-col>
                   </v-row>
                 </v-container>
               </v-col>

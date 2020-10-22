@@ -32,7 +32,8 @@
           </span>
         </v-card-title>
         <v-card-text>
-          <v-form>
+          <v-form
+            ref="formulario">
             <v-alert
               type="error"
               v-model="alertaErrores">
@@ -134,6 +135,7 @@ export default {
               this.textoSnackbar = 'Contraseña desencriptada exitosamente'
               this.snackbar = !this.snackbar
               this.DatosUsuario.ContraseniaUsuario = response.data.ContraseniaUsuario
+              //this.$refs.formulario.reset()
               //this.DatosUsuario = Object.assign({}, this.datosVacios)
               //console.log(response.data)
             }

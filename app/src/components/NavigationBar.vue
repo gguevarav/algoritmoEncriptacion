@@ -1,8 +1,14 @@
 <template>
-  <v-div>
-    <v-app-bar color="brown darken-3" dark app>
+  <div>
+    <v-app-bar
+      color="brown darken-3"
+      dark
+      app>
       <v-app-bar-nav-icon
-        @click="barraNavegacion = !barraNavegacion">
+        @click="ocultarBarra()">
+        <v-icon>
+          {{ iconoBarra }}
+        </v-icon>
       </v-app-bar-nav-icon>
       <v-toolbar-title>
         Encriptador de contraseñas
@@ -79,7 +85,7 @@
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-  </v-div>
+  </div>
 </template>
 
 <script>
@@ -95,6 +101,18 @@ export default {
   },
   data: () => ({
     barraNavegacion: false,
-  })
+    iconoBarra: 'mdi-plus',
+  }),
+  methods:{
+    ocultarBarra(){
+      if(this.barraNavegacion == true){
+        this.barraNavegacion = false;
+        this.iconoBarra = 'mdi-plus';
+      }else if(this.barraNavegacion == false){
+        this.barraNavegacion = true;
+        this.iconoBarra = 'mdi-minus';
+      }
+    },
+  },
 }
 </script>

@@ -32,7 +32,8 @@
           </span>
         </v-card-title>
         <v-card-text>
-          <v-form>
+          <v-form
+            ref="formulario">
             <v-alert
               type="error"
               v-model="alertaErrores">
@@ -161,6 +162,7 @@ export default {
               this.DatosUsuario = Object.assign({}, this.datosVacios)
               //console.log(response.data)
               this.mostrarContraseniaEncriptada = true;
+              this.$refs.formulario.reset()
               this.contreseniaEncriptada = response.data.contreseniaEncriptada;
             }
             // Se la respuesta es 404 es que los datos contienen errores
